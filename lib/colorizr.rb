@@ -18,10 +18,19 @@ class String
     colors = @@background_colors.dup
     name = name.to_s.downcase
 
+    # Attempt to match any method with the prefix of
+      # backgroud_ to try to print out the background color.
+      # For example, background_blue will return the value of blue, which is
+      # determined in the @@brand_colors hash above.
     if(match_data = /^background_(\w*?)/.match name)
-      if md[1] == 'background_'
+      # If a match from the regexp is found to equal backgroud_
+        # then loop through the background_colors hash and find the
+        # value that matches the second part of the MatchData,
+        # which should be a color.
+      if match_data[1] == 'background_'
         @@background_colors.each do |color, value|
-          if color == md[2].gsub("_", "")
+          # Remove the _ and
+          if color == match_data[2].gsub("_", "")
             return value
           end
         end
@@ -48,7 +57,7 @@ class String
     @@colors.each do |color, value|
       colors << color
     end
-    colors
+    return colors
   end
 
 
@@ -63,3 +72,10 @@ end
 
 # Create the colors for the String class
 String.create_colors
+
+
+You've done a really good job on this, but there is minor logical error in your calculation for the discount.  The specifications ask that you calculate the percent difference between the average price and the full price of each product.  You are on the right track!
+
+I am going to give you a brief walkthrough of how I chose to think about solving this problem.
+
+Let's say you are buying a new television.  The price is $500.
