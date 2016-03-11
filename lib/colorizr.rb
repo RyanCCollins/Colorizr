@@ -14,9 +14,24 @@ class String
 
   # If a method is called that does not exist,
     # Then call the method missing.
-  def method_missing sym
-    puts "#{sym} does nothing.  I said nothing!"
+  def method_missing name, *args, &block
+    colors = @@background_colors.dup
+    name = name.to_s.downcase
+
+    if(match_data = /^background_(\w*?)/.match name)
+      if md[1] == 'background_'
+        @@background_colors.each do |color, value|
+          if color == md[2].gsub("_", "")
+            return value
+          end
+        end
+        #@@background_colors.select { |color, value| color == md[2].gsub("_", "") }
+      end
+    else
+      puts "Sorry, but #{name} is not a valid method"
+    end
   end
+
 
   # Create the color methods for every value in the @@colors array
   def self.create_colors
@@ -27,16 +42,6 @@ class String
     end
   end
 
-  # Create the background colors, which are accessible
-    # by calling the color name followed by _background
-  def self.create_backgrounds
-    @@background_colors.each do |color, value|
-      name = (color.to_s + '_background').to_sym
-      self.send(:define_method, name) do
-        "\e[#{value}m" + self + "\e[0m"
-      end
-    end
-  end
 
   # Return the colors in a usable array by calling Colorizr.colors
   def self.colors
@@ -46,12 +51,6 @@ class String
     colors
   end
 
-  def self.background_colors
-    @@background_colors.each do |color, value|
-      background_colors << color
-    end
-    background_colors
-  end
 
   # Give a sample of all of the available colors.  Takes
     # an option for showing background colors
@@ -59,13 +58,8 @@ class String
     @@colors.each do |color, value|
       puts "This is " + "#{color}".send(color)
     end
-    # Sample background colors
-    @@background_colors.each do |color, value|
-      puts "This is " + "#{color}".send(color)
-    end
   end
 end
 
 # Create the colors for the String class
 String.create_colors
-String.create_backgrounds
