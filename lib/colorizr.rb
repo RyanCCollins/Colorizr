@@ -13,44 +13,36 @@ class String
                           pink: 105, light_cyan: 106, white: 107 }
 
   # If a method is called that does not exist,
-    # Then call the method missing.
+    # Then the method missing is called.
   def method_missing name, *args, &block
-    colors = @@background_colors.dup
     name = name.to_s.downcase
 
     # Attempt to match any method with the prefix of
       # backgroud_ to try to print out the background color.
-      # For example, background_blue will return the value of blue, which is
+      # For example, background_blue will puts the value of blue, which is
       # determined in the @@brand_colors hash above.
-    if(match_data = /^background_(\w*?)/.match name)
+    if(match_data = /^background_()(\w*?)?$/.match name)
       # If a match from the regexp is found to equal backgroud_
         # then loop through the background_colors hash and find the
         # value that matches the second part of the MatchData,
         # which should be a color.
-      if match_data[1] == 'background_'
-        @@background_colors.each do |color, value|
-          # Remove the _ and return the value
-          if color == match_data[2].gsub("_", "")
-            return value
-          end
-        end
-        #@@background_colors.select { |color, value| color == md[2].gsub("_", "") }
-      end
-    else
-      puts "Sorry, but #{name} is not a valid method"
+        value = @@background_colors.fetch(match_data[2].to_sym)
+        color_string value if value
     end
   end
 
+  def color_string value
+    "\e[#{value}m" + self + "\e[0m"
+  end
 
   # Create the color methods for every value in the @@colors array
   def self.create_colors
     @@colors.each do |color, value|
       self.send(:define_method, color) do
-        "\e[#{value}m" + self + "\e[0m"
+        color_string value
       end
     end
   end
-
 
   # Return the colors in a usable array by calling Colorizr.colors
   def self.colors
@@ -61,12 +53,15 @@ class String
     return color_arr
   end
 
-
   # Give a sample of all of the available colors.  Takes
     # an option for showing background colors
   def self.sample_colors
     @@colors.each do |color, value|
       puts "This is " + "#{color}".send(color)
+    end
+    @@background_colors.each do |color, value|
+      background_color = "background_#{color}"
+      puts "This is background " + "#{color}".send(background_color.to_sym)
     end
   end
 end
