@@ -46,15 +46,23 @@ class String
 
   # Return the colors in a usable array by calling Colorizr.colors
   def self.colors
-    color_arr = []
+    color_array = []
     @@colors.each do |color, value|
-      color_arr << color
+      color_array << color
     end
-    return color_arr
+    color_array
   end
 
-  # Give a sample of all of the available colors.  Takes
-    # an option for showing background colors
+  # Return an array with all of the background colors.
+  def self.background_colors
+    backgrounds = []
+    @@background_colors.each do |color, value|
+      backgrounds << color
+    end
+    backgrounds
+  end
+
+  # Give a sample of all of the available colors, including background
   def self.sample_colors
     @@colors.each do |color, value|
       puts "This is " + "#{color}".send(color)
@@ -66,5 +74,5 @@ class String
   end
 end
 
-# Create the colors for the String class
+# Create the color methods for the String class
 String.create_colors
