@@ -29,7 +29,7 @@ class String
         # which should be a color.
       if match_data[1] == 'background_'
         @@background_colors.each do |color, value|
-          # Remove the _ and
+          # Remove the _ and return the value
           if color == match_data[2].gsub("_", "")
             return value
           end
@@ -54,10 +54,11 @@ class String
 
   # Return the colors in a usable array by calling Colorizr.colors
   def self.colors
+    color_arr = []
     @@colors.each do |color, value|
-      colors << color
+      color_arr << color
     end
-    return colors
+    return color_arr
   end
 
 
@@ -72,10 +73,3 @@ end
 
 # Create the colors for the String class
 String.create_colors
-
-
-You've done a really good job on this, but there is minor logical error in your calculation for the discount.  The specifications ask that you calculate the percent difference between the average price and the full price of each product.  You are on the right track!
-
-I am going to give you a brief walkthrough of how I chose to think about solving this problem.
-
-Let's say you are buying a new television.  The price is $500.
