@@ -16,21 +16,21 @@ class String
     # Then the method missing is called.
   def method_missing name, *args, &block
     name = name.to_s.downcase
-
     # Attempt to match any method with the prefix of
       # backgroud_ to try to print out the background color.
-      # For example, background_blue will puts the value of blue, which is
-      # determined in the @@brand_colors hash above.
+      # For example, background_blue will return the right string value in
+      # order to colorize the background output
     if(match_data = /^background_()(\w*?)?$/.match name)
       # If a match from the regexp is found to equal backgroud_
-        # then loop through the background_colors hash and find the
-        # value that matches the second part of the MatchData,
-        # which should be a color.
+        # then fetch the corresponding value from the @@background_colors hash
+        # Build and return the string that will be output.
         value = @@background_colors.fetch(match_data[2].to_sym)
         color_string value if value
     end
   end
 
+  # Return the value that will print out colored to the terminal
+    # Takes a number value and returns self formatted to print that color
   def color_string value
     "\e[#{value}m" + self + "\e[0m"
   end
