@@ -1,6 +1,6 @@
 # Colorizr
 
-A ruby gem that changes the output of text to the terminal.
+A ruby gem that colors the output of text to the terminal.
 
 Colorizr
 
@@ -17,7 +17,7 @@ This gem enables you to print colored text to the terminal.  It allows you to ca
 
 
 ## Usage
-You can use this handy gem to colorize the output of your text to the terminal.  First, type `require 'colorizr'` in the top of your file.  This expands the String class, allowing you to call a number of different methods on any string in order to colorize it.
+Here are some handy usages of the gem.
 
 To use the gem to print colored text
 ```
@@ -69,5 +69,3 @@ Ruby
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
