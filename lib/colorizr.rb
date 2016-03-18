@@ -62,6 +62,13 @@ class String
     backgrounds
   end
 
+  # Pick a random sample from colors array
+    # Probably not the best idea, but for the sake of this project
+    # I will allow it.
+  def self.random_color
+    @@colors.sample
+  end
+
   # Give a sample of all of the available colors, including background
   def self.sample_colors
     @@colors.each do |color, value|
@@ -74,5 +81,13 @@ class String
   end
 end
 
+
+
 # Create the color methods for the String class
 String.create_colors
+
+module Colors
+  def random_color
+    #code
+  end
+end
